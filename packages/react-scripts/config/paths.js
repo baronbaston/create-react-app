@@ -53,15 +53,20 @@ module.exports = {
   appBuild: resolveApp('build'),
   appPublic: resolveApp('public'),
   appHtml: resolveApp('public/index.html'),
-  appIndexJs: resolveApp('src/index.js'),
+  appIndexJs: resolveApp('src/index.tsx'),
   appPackageJson: resolveApp('package.json'),
   appSrc: resolveApp('src'),
   yarnLockFile: resolveApp('yarn.lock'),
-  testsSetup: resolveApp('src/setupTests.js'),
-  proxySetup: resolveApp('src/setupProxy.js'),
+  testsSetup: resolveApp('src/setupTests.ts'),
+  proxySetup: resolveApp('src/setupProxy.ts'),
   appNodeModules: resolveApp('node_modules'),
   publicUrl: getPublicUrl(resolveApp('package.json')),
   servedPath: getServedPath(resolveApp('package.json')),
+
+  appTsConfig: resolveApp('tsconfig.json'),
+  appTsProdConfig: resolveApp('tsconfig.prod.json'),
+  appTsLint: resolveApp('tslint.json'),
+  appTsTestConfig: resolveApp('tsconfig.test.json'),
 };
 
 // @remove-on-eject-begin
@@ -74,18 +79,23 @@ module.exports = {
   appBuild: resolveApp('build'),
   appPublic: resolveApp('public'),
   appHtml: resolveApp('public/index.html'),
-  appIndexJs: resolveApp('src/index.js'),
+  appIndexJs: resolveApp('src/index.tsx'),
   appPackageJson: resolveApp('package.json'),
   appSrc: resolveApp('src'),
   yarnLockFile: resolveApp('yarn.lock'),
-  testsSetup: resolveApp('src/setupTests.js'),
-  proxySetup: resolveApp('src/setupProxy.js'),
+  testsSetup: resolveApp('src/setupTests.ts'),
+  proxySetup: resolveApp('src/setupProxy.ts'),
   appNodeModules: resolveApp('node_modules'),
   publicUrl: getPublicUrl(resolveApp('package.json')),
   servedPath: getServedPath(resolveApp('package.json')),
   // These properties only exist before ejecting:
   ownPath: resolveOwn('.'),
   ownNodeModules: resolveOwn('node_modules'), // This is empty on npm 3
+
+  appTsConfig: resolveApp('tsconfig.json'),
+  appTsProdConfig: resolveApp('tsconfig.prod.json'),
+  appTsLint: resolveApp('tslint.json'),
+  appTsTestConfig: resolveApp('tsconfig.test.json'),
 };
 
 const ownPackageJson = require('../package.json');
@@ -105,18 +115,23 @@ if (
     appBuild: resolveOwn('../../build'),
     appPublic: resolveOwn('template/public'),
     appHtml: resolveOwn('template/public/index.html'),
-    appIndexJs: resolveOwn('template/src/index.js'),
+    appIndexJs: resolveOwn('template/src/index.tsx'),
     appPackageJson: resolveOwn('package.json'),
     appSrc: resolveOwn('template/src'),
     yarnLockFile: resolveOwn('template/yarn.lock'),
-    testsSetup: resolveOwn('template/src/setupTests.js'),
-    proxySetup: resolveOwn('template/src/setupProxy.js'),
+    testsSetup: resolveOwn('template/src/setupTests.ts'),
+    proxySetup: resolveOwn('template/src/setupProxy.ts'),
     appNodeModules: resolveOwn('node_modules'),
     publicUrl: getPublicUrl(resolveOwn('package.json')),
     servedPath: getServedPath(resolveOwn('package.json')),
     // These properties only exist before ejecting:
     ownPath: resolveOwn('.'),
     ownNodeModules: resolveOwn('node_modules'),
+
+    appTsConfig: resolveApp('tsconfig.json'),
+    appTsProdConfig: resolveApp('tsconfig.prod.json'),
+    appTsLint: resolveApp('tslint.json'),
+    appTsTestConfig: resolveApp('tsconfig.test.json'),
   };
 }
 // @remove-on-eject-end
