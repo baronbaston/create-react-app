@@ -24,6 +24,7 @@ const ManifestPlugin = require('webpack-manifest-plugin');
 
 const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
 const TsconfigPathsPlugin = require('tsconfig-paths-webpack-plugin');
+const WebpackShellPlugin = require('webpack-shell-plugin-next');
 
 // Webpack uses `publicPath` to determine where the app is being served from.
 // In development, we always serve from the root. This makes config easier.
@@ -324,6 +325,9 @@ module.exports = {
             exclude: cssModuleRegex,
             use: getStyleLoaders({
               importLoaders: 1,
+              modules: true,
+              getLocalIdent: (a, b, localName) => localName,
+              camelCase: true,
             }),
           },
           // Adds support for CSS Modules (https://github.com/css-modules/css-modules)
@@ -334,6 +338,7 @@ module.exports = {
               importLoaders: 1,
               modules: true,
               getLocalIdent: getCSSModuleLocalIdent,
+              camelCase: true,
             }),
           },
           // Opt-in support for SASS (using .scss or .sass extensions).
@@ -344,7 +349,15 @@ module.exports = {
           {
             test: sassRegex,
             exclude: sassModuleRegex,
-            use: getStyleLoaders({ importLoaders: 2 }, 'sass-loader'),
+            use: getStyleLoaders(
+              {
+                importLoaders: 2,
+                modules: true,
+                getLocalIdent: (a, b, localName) => localName,
+                camelCase: true,
+              },
+              'sass-loader'
+            ),
           },
           // Adds support for CSS Modules, but using SASS
           // using the extension .module.scss or .module.sass
@@ -355,6 +368,7 @@ module.exports = {
                 importLoaders: 2,
                 modules: true,
                 getLocalIdent: getCSSModuleLocalIdent,
+                camelCase: true,
               },
               'sass-loader'
             ),
@@ -424,6 +438,15 @@ module.exports = {
       fileName: 'asset-manifest.json',
       publicPath: publicPath,
     }),
+    new WebpackShellPlugin({
+      onBuildStart: {
+        scripts: ['npm run build-style-typings'],
+        blocking: true,
+        parallel: false,
+      },
+      dev: false,
+    }),
+    new webpack.WatchIgnorePlugin([/css\.d\.ts$/, /scss\.d\.ts$/]),
     new ForkTsCheckerWebpackPlugin({
       async: false,
       watch: paths.appSrc,

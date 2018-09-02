@@ -96,6 +96,7 @@ module.exports = function(
     build: 'react-scripts build',
     test: 'react-scripts test --env=jsdom',
     eject: 'react-scripts eject',
+    'build-style-typings': 'tcm -c -p src/**/*.*css',
   };
 
   appPackage.browserslist = defaultBrowsers;
@@ -165,6 +166,7 @@ module.exports = function(
     '@types/jest',
     'typescript',
     'node-sass',
+    'typed-css-modules',
   ];
 
   console.log(
@@ -185,6 +187,7 @@ module.exports = function(
     appPath,
     '.template.dependencies.json'
   );
+
   if (fs.existsSync(templateDependenciesPath)) {
     const templateDependencies = require(templateDependenciesPath).dependencies;
     args = args.concat(

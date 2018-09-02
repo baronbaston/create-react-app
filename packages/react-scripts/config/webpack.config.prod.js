@@ -351,6 +351,9 @@ module.exports = {
             loader: getStyleLoaders({
               importLoaders: 1,
               sourceMap: shouldUseSourceMap,
+              modules: true,
+              getLocalIdent: (a, b, localName) => localName,
+              camelCase: true,
             }),
           },
           // Adds support for CSS Modules (https://github.com/css-modules/css-modules)
@@ -362,6 +365,7 @@ module.exports = {
               sourceMap: shouldUseSourceMap,
               modules: true,
               getLocalIdent: getCSSModuleLocalIdent,
+              camelCase: true,
             }),
           },
           // Opt-in support for SASS. The logic here is somewhat similar
@@ -376,6 +380,9 @@ module.exports = {
               {
                 importLoaders: 2,
                 sourceMap: shouldUseSourceMap,
+                modules: true,
+                getLocalIdent: (a, b, localName) => localName,
+                camelCase: true,
               },
               'sass-loader'
             ),
@@ -390,6 +397,7 @@ module.exports = {
                 sourceMap: shouldUseSourceMap,
                 modules: true,
                 getLocalIdent: getCSSModuleLocalIdent,
+                camelCase: true,
               },
               'sass-loader'
             ),
