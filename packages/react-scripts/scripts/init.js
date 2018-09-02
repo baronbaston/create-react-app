@@ -164,6 +164,7 @@ module.exports = function(
     '@types/react-dom',
     '@types/jest',
     'typescript',
+    'node-sass',
   ];
 
   console.log(
