@@ -20,6 +20,9 @@
   "bin": {
     "react-scripts": "./bin/react-scripts.js"
   },
+  "scripts": {
+    "testinstall": "npm pack && npx create-react-app test-cra --scripts-version ../react-scripts-`npm view react-scripts version`.tgz"
+  },
   "dependencies": {
     "autoprefixer": "7.1.6",
     "babel-core": "6.26.0",
