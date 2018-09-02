@@ -1,8 +1,8 @@
 {
-  "name": "react-scripts",
+  "name": "bb-react-scripts",
   "version": "1.1.5",
-  "description": "Configuration and scripts for Create React App.",
-  "repository": "facebookincubator/create-react-app",
+  "description": "BB Configuration and scripts for Create React App.",
+  "repository": "baronbaston/create-react-app",
   "license": "MIT",
   "engines": {
     "node": ">=6"
@@ -21,7 +21,7 @@
     "react-scripts": "./bin/react-scripts.js"
   },
   "scripts": {
-    "testinstall": "npm pack && npx create-react-app test-cra --scripts-version ../react-scripts-`npm view react-scripts version`.tgz"
+    "testinstall": "rm -rf test-cra; npm pack && npx create-react-app test-cra --scripts-version ../bb-react-scripts-1.1.5.tgz"
   },
   "dependencies": {
     "autoprefixer": "7.1.6",
@@ -61,11 +61,21 @@
     "webpack": "3.8.1",
     "webpack-dev-server": "2.11.3",
     "webpack-manifest-plugin": "1.3.2",
-    "whatwg-fetch": "2.0.3"
+    "whatwg-fetch": "2.0.3",
+    "fork-ts-checker-webpack-plugin": "^0.4.9",
+    "ts-jest": "^23.1.4",
+    "ts-loader": "^3.5.0",
+    "tsconfig-paths-webpack-plugin": "^3.2.0",
+    "tslint": "^5.11.0",
+    "tslint-config-prettier": "^1.15.0",
+    "tslint-react": "^3.6.0"
   },
   "devDependencies": {
     "react": "^16.0.0",
     "react-dom": "^16.0.0"
+  },
+  "peerDependenceis": {
+    "typescript": "3.x"
   },
   "optionalDependencies": {
     "fsevents": "^1.1.3"
