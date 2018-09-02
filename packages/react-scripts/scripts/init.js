@@ -172,18 +172,25 @@ module.exports = function(
     '.template.dependencies.json'
   );
   if (fs.existsSync(templateDependenciesPath)) {
-    const templateDependencies = require(templateDependenciesPath).dependencies;
+    const template = require(templateDependenciesPath);
+    const templateDependencies = template.dependencies;
     args = args.concat(
       Object.keys(templateDependencies).map(key => {
         return `${key}@${templateDependencies[key]}`;
       })
     );
-    const templateDevDependencies = require(templateDependenciesPath).devDependencies;
+    const templateDevDependencies = template.devDependencies;
     devArgs = devArgs.concat(
       Object.keys(templateDevDependencies).map(key => {
         return `${key}@${templateDevDependencies[key]}`;
       })
     );
+    if (template.scripts) {
+      appPackage.scripts = {
+        ...appPackage.scripts,
+        ...template.scripts
+      };
+    }
     fs.unlinkSync(templateDependenciesPath);
   }
 
