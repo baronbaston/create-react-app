@@ -1,8 +1,8 @@
 {
-  "name": "react-dev-utils",
+  "name": "@rmark/react-dev-utils",
   "version": "5.0.0",
   "description": "Webpack utilities used by Create React App",
-  "repository": "facebook/create-react-app",
+  "repository": "baronbaston/create-react-app",
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/facebook/create-react-app/issues"

@@ -98,10 +98,10 @@ yarn config set registry "$custom_registry_url"
 (cd && npx npm-auth-to-token@1.0.0 -u user -p password -e user@example.com -r "$custom_registry_url")
 
 # Lint own code
-./node_modules/.bin/eslint --max-warnings 0 packages/babel-preset-react-app/
-./node_modules/.bin/eslint --max-warnings 0 packages/confusing-browser-globals/
+./node_modules/.bin/eslint --max-warnings 0 packages/@rmark/babel-preset-react-app/
+./node_modules/.bin/eslint --max-warnings 0 packages/@rmark/confusing-browser-globals/
 ./node_modules/.bin/eslint --max-warnings 0 packages/create-react-app/
-./node_modules/.bin/eslint --max-warnings 0 packages/eslint-config-react-app/
+./node_modules/.bin/eslint --max-warnings 0 packages/@rmark/eslint-config-react-app/
 ./node_modules/.bin/eslint --max-warnings 0 packages/react-dev-utils/
 ./node_modules/.bin/eslint --max-warnings 0 packages/react-scripts/
 
@@ -118,7 +118,7 @@ cd packages/react-dev-utils/
 yarn test
 cd ../..
 
-cd packages/confusing-browser-globals/
+cd packages/@rmark/confusing-browser-globals/
 yarn test
 cd ../..
 

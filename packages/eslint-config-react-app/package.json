@@ -1,5 +1,5 @@
 {
-  "name": "eslint-config-react-app",
+  "name": "@rmark/eslint-config-react-app",
   "version": "2.1.0",
   "description": "ESLint configuration used by Create React App",
   "repository": "facebook/create-react-app",
@@ -19,6 +19,6 @@
     "eslint-plugin-react": "^7.8.2"
   },
   "dependencies": {
-    "confusing-browser-globals": "^1.0.0"
+    "@rmark/confusing-browser-globals": "^1.0.0"
   }
 }

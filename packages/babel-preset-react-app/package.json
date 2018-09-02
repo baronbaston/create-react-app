@@ -1,8 +1,8 @@
 {
-  "name": "babel-preset-react-app",
+  "name": "@rmark/babel-preset-react-app",
   "version": "3.1.1",
   "description": "Babel preset used by Create React App",
-  "repository": "facebook/create-react-app",
+  "repository": "baronbaston/create-react-app",
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/facebook/create-react-app/issues"
