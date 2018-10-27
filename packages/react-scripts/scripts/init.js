@@ -153,15 +153,18 @@ module.exports = function(
 
   let command;
   let args;
+  let devArgs;
 
   if (useYarn) {
     command = 'yarnpkg';
     args = ['add'];
+    devArgs = ['add', '-D'];
   } else {
     command = 'npm';
     args = ['install', '--save', verbose && '--verbose'].filter(e => e);
+    devArgs = ['install', '--save-dev', verbose && '--verbose'].filter(e => e);
   }
-  args.push('react', 'react-dom');
+  //args.push('react', 'react-dom');
 
   // Install additional template dependencies, if present
   const templateDependenciesPath = path.join(
@@ -175,21 +178,46 @@ module.exports = function(
         return `${key}@${templateDependencies[key]}`;
       })
     );
+    const templateDevDependencies = require(templateDependenciesPath).devDependencies;
+    devArgs = devArgs.concat(
+      Object.keys(templateDevDependencies).map(key => {
+        return `${key}@${templateDevDependencies[key]}`;
+      })
+    );
     fs.unlinkSync(templateDependenciesPath);
   }
 
   // Install react and react-dom for backward compatibility with old CRA cli
   // which doesn't install react and react-dom along with react-scripts
   // or template is presetend (via --internal-testing-template)
-  if (!isReactInstalled(appPackage) || template) {
-    console.log(`Installing react and react-dom using ${command}...`);
+  // if (!isReactInstalled(appPackage) || template) {
+  //   console.log(`Installing react and react-dom using ${command}...`);
+  //   console.log();
+
+  //   const proc = spawn.sync(command, args, { stdio: 'inherit' });
+  //   if (proc.status !== 0) {
+  //     console.error(`\`${command} ${args.join(' ')}\` failed`);
+  //     return;
+  //   }
+  // }
+
+  if (installPackages(command, args) || installPackages(command, devArgs)) {
+    return;
+  }
+
+  function installPackages(command, args) {
+    console.log(`Installing packages using ${command}...`);
     console.log();
 
-    const proc = spawn.sync(command, args, { stdio: 'inherit' });
+    const proc = spawn.sync(command, args, {
+      stdio: 'inherit'
+    });
+
     if (proc.status !== 0) {
       console.error(`\`${command} ${args.join(' ')}\` failed`);
-      return;
     }
+
+    return proc.status;
   }
 
   if (tryGitInit(appPath)) {
