@@ -59,8 +59,11 @@ if (env.stringified['process.env'].NODE_ENV !== '"production"') {
 // style files regexes
 const cssRegex = /\.css$/;
 const cssModuleRegex = /\.module\.css$/;
+const cssAllRegex = /(\.css$|\.module\.css$)/;
+
 const sassRegex = /\.(scss|sass)$/;
 const sassModuleRegex = /\.module\.(scss|sass)$/;
+const sassAllRegex = /(\.scss$|\.module\.scss$)/;
 
 // common function to get style loaders
 const getStyleLoaders = (cssOptions, preProcessor) => {
@@ -107,6 +110,17 @@ const getStyleLoaders = (cssOptions, preProcessor) => {
     });
   }
   return loaders;
+};
+
+const getTypedCssModuleLoaders = preProcessor => {
+	const use = [{
+		loader: 'typed-css-modules-loader?camelCase'
+	}];
+
+	if (preProcessor) {
+		use.push(require.resolve(preProcessor));
+	}
+	return use;
 };
 
 // This is the production configuration.
@@ -282,6 +296,20 @@ module.exports = {
         include: paths.appSrc,
       },
       {
+        test: cssAllRegex,
+        enforce: 'pre',
+        include: paths.srcPaths,
+        exclude: /node_modules/,
+        use: getTypedCssModuleLoaders(),
+      },
+      {
+        test: sassAllRegex,
+        enforce: 'pre',
+        include: paths.srcPaths,
+        exclude: /node_modules/,
+        use: getTypedCssModuleLoaders('sass-loader'),
+      },
+      {
         // "oneOf" will traverse all following loaders until one will
         // match the requirements. When no loader matches it will fall
         // back to the "file" loader at the end of the loader list.
@@ -400,6 +428,9 @@ module.exports = {
             loader: getStyleLoaders({
               importLoaders: 1,
               sourceMap: shouldUseSourceMap,
+              modules: true,
+              getLocalIdent: (a, b, localName) => localName,
+              camelCase: true,
             }),
             // Don't consider CSS imports dead code even if the
             // containing package claims to have no side effects.
@@ -416,6 +447,7 @@ module.exports = {
               sourceMap: shouldUseSourceMap,
               modules: true,
               getLocalIdent: getCSSModuleLocalIdent,
+              camelCase: true,
             }),
           },
           // Opt-in support for SASS. The logic here is somewhat similar
@@ -430,6 +462,9 @@ module.exports = {
               {
                 importLoaders: 2,
                 sourceMap: shouldUseSourceMap,
+                modules: true,
+                getLocalIdent: (a, b, localName) => localName,
+                camelCase: true,
               },
               'sass-loader'
             ),
@@ -449,6 +484,7 @@ module.exports = {
                 sourceMap: shouldUseSourceMap,
                 modules: true,
                 getLocalIdent: getCSSModuleLocalIdent,
+                camelCase: true,
               },
               'sass-loader'
             ),
