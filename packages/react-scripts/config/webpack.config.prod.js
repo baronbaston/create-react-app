@@ -381,6 +381,15 @@ module.exports = {
                   configFile: paths.appTsProdConfig,
                 },
               },
+              {
+                  loader: "ifdef-loader",
+                  options: {
+                    DEBUG: false,
+                    LOCALHOST: false,
+                    "ifdef-verbose": false, // verbose output
+                    "ifdef-triple-slash": true // false means double-slash instead of triple
+                }
+              }
             ],
           },
           // Process any JS outside of the app with Babel.
