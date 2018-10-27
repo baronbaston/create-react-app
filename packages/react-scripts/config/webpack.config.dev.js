@@ -27,6 +27,7 @@ const getCacheIdentifier = require('react-dev-utils/getCacheIdentifier');
 
 const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
 const TsconfigPathsPlugin = require('tsconfig-paths-webpack-plugin');
+const CircularDependencyPlugin = require('circular-dependency-plugin');
 
 // Webpack uses `publicPath` to determine where the app is being served from.
 // In development, we always serve from the root. This makes config easier.
@@ -469,6 +470,14 @@ module.exports = {
       watch: paths.appSrc,
       tsconfig: paths.appTsConfig,
       tslint: paths.appTsLint,
+    }),
+    new CircularDependencyPlugin({
+      // exclude detection of files based on a RegExp
+      exclude: /node_modules/,
+      // add errors to webpack instead of warnings
+      failOnError: false,
+      // set the current working directory for displaying module paths
+      cwd: process.cwd(),
     }),
   ],
 
