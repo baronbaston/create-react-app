@@ -59,11 +59,9 @@ if (env.stringified['process.env'].NODE_ENV !== '"production"') {
 // style files regexes
 const cssRegex = /\.css$/;
 const cssModuleRegex = /\.module\.css$/;
-const cssAllRegex = /(\.css$|\.module\.css$)/;
 
 const sassRegex = /\.(scss|sass)$/;
 const sassModuleRegex = /\.module\.(scss|sass)$/;
-const sassAllRegex = /(\.scss$|\.module\.scss$)/;
 
 // common function to get style loaders
 const getStyleLoaders = (cssOptions, preProcessor) => {
@@ -110,17 +108,6 @@ const getStyleLoaders = (cssOptions, preProcessor) => {
     });
   }
   return loaders;
-};
-
-const getTypedCssModuleLoaders = preProcessor => {
-	const use = [{
-		loader: 'typed-css-modules-loader?camelCase'
-	}];
-
-	if (preProcessor) {
-		use.push(require.resolve(preProcessor));
-	}
-	return use;
 };
 
 // This is the production configuration.
@@ -297,20 +284,6 @@ module.exports = {
       //   ],
       //   include: paths.appSrc,
       // },
-      {
-        test: cssAllRegex,
-        enforce: 'pre',
-        include: paths.srcPaths,
-        exclude: /node_modules/,
-        use: getTypedCssModuleLoaders(),
-      },
-      {
-        test: sassAllRegex,
-        enforce: 'pre',
-        include: paths.srcPaths,
-        exclude: /node_modules/,
-        use: getTypedCssModuleLoaders('sass-loader'),
-      },
       {
         // "oneOf" will traverse all following loaders until one will
         // match the requirements. When no loader matches it will fall
@@ -594,7 +567,7 @@ module.exports = {
       async: false,
       tsconfig: paths.appTsProdConfig,
       tslint: paths.appTsLint,
-    }),
+    })
   ].filter(Boolean),
   // Some libraries import Node modules but don't use them in the browser.
   // Tell Webpack to provide empty mocks for them so importing them works.

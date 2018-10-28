@@ -26,6 +26,7 @@ const getCacheIdentifier = require('react-dev-utils/getCacheIdentifier');
 // @remove-on-eject-end
 
 const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
+const ForkTsCheckerTypedStylingsWebpackPlugin = require('typed-stylings-webpack-plugin').ForkTsCheckerTypedStylingsWebpackPlugin;
 const TsconfigPathsPlugin = require('tsconfig-paths-webpack-plugin');
 const CircularDependencyPlugin = require('circular-dependency-plugin');
 
@@ -42,11 +43,9 @@ const env = getClientEnvironment(publicUrl);
 // style files regexes
 const cssRegex = /\.css$/;
 const cssModuleRegex = /\.module\.css$/;
-const cssAllRegex = /(\.css$|\.module\.css$)/;
 
 const sassRegex = /\.(scss|sass)$/;
 const sassModuleRegex = /\.module\.(scss|sass)$/;
-const sassAllRegex = /(\.scss$|\.module\.scss$)/;
 
 // common function to get style loaders
 const getStyleLoaders = (cssOptions, preProcessor) => {
@@ -83,16 +82,6 @@ const getStyleLoaders = (cssOptions, preProcessor) => {
   return loaders;
 };
 
-const getTypedCssModuleLoaders = preProcessor => {
-	const use = [{
-		loader: 'typed-css-modules-loader?camelCase'
-	}];
-
-	if (preProcessor) {
-		use.push(require.resolve(preProcessor));
-	}
-	return use;
-};
 
 // This is the development configuration.
 // It is focused on developer experience and fast rebuilds.
@@ -222,20 +211,6 @@ module.exports = {
       //   ],
       //   include: paths.appSrc,
       // },
-      {
-        test: cssAllRegex,
-        enforce: 'pre',
-        include: paths.srcPaths,
-        exclude: /node_modules/,
-        use: getTypedCssModuleLoaders(),
-      },
-      {
-        test: sassAllRegex,
-        enforce: 'pre',
-        include: paths.srcPaths,
-        exclude: /node_modules/,
-        use: getTypedCssModuleLoaders('sass-loader'),
-      },
       {
         // "oneOf" will traverse all following loaders until one will
         // match the requirements. When no loader matches it will fall
@@ -481,6 +456,10 @@ module.exports = {
       watch: paths.appSrc,
       tsconfig: paths.appTsConfig,
       tslint: paths.appTsLint,
+    }),
+    new ForkTsCheckerTypedStylingsWebpackPlugin({
+      includePaths: [paths.appSrc],
+      nodeModulesPath: paths.appNodeModules
     }),
     new CircularDependencyPlugin({
       // exclude detection of files based on a RegExp
