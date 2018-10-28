@@ -93,7 +93,7 @@ module.exports = function(
   // Setup the script rules
   appPackage.scripts = {
     start: 'react-scripts start',
-    build: 'react-scripts build',
+    build: 'export GENERATE_SOURCEMAP=false && react-scripts build',
     test: 'react-scripts test',
     eject: 'react-scripts eject',
   };
